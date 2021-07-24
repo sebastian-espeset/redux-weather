@@ -1,6 +1,4 @@
 import {React, useEffect} from "react";
-const queryString=require("query-string");
-const moment=require("moment"); 
 import {
   Grid,
   Paper,
@@ -14,6 +12,8 @@ import {
 import {Cloud, WbSunny, AcUnit} from "@material-ui/icons";
 import axios from 'axios';
 
+const queryString=require("query-string");
+const moment=require("moment"); 
 const daysList = [
   "Monday",
   "Tuesday",
