@@ -77,15 +77,14 @@ function Weather() {
       </AppBar>
 
       <Container>
-        <Grid container spacing={2} justify="center">
+        <Grid container spacing={4} justify="center">
           {weather.length>1 ? weather.map((day) => {
             return (
               <Card className={classes.fullCard}>
                 <Grid item >
                   <Typography variant="title1"></Typography>
-                  <Typography variant="subtitle1">Some weather data</Typography>
+                  <Typography variant="subtitle1">{day.values.weatherCode}</Typography>
                   <Typography variant="subtitle2"> high of {day.values.temperature}</Typography>
-                  <WbSunny/>/<Cloud/>
                 </Grid>
               </Card>
             );
