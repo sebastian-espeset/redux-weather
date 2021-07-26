@@ -63,7 +63,7 @@ function Weather() {
   const classes = useStyle();
   useEffect(() => {
       axios.get(timeLinesURL+"?"+getTimeLineParameters)
-      .then(res=>setWeather(res.data.data.timelines[0]))
+      .then(res=>setWeather(res.data.data.timelines[0].intervals))
       .catch(err=>console.log(err))
   }, [])
   console.log(weather)
@@ -78,19 +78,18 @@ function Weather() {
 
       <Container>
         <Grid container spacing={2} justify="center">
-          {daysList.map((day) => {
+          {weather.length>1 ? weather.map((day) => {
             return (
               <Card className={classes.fullCard}>
                 <Grid item >
-                  <Typography variant="title1">{day}</Typography>
+                  <Typography variant="title1"></Typography>
                   <Typography variant="subtitle1">Some weather data</Typography>
-                  <Typography variant="subtitle2"> high of 72°</Typography>
-                  <Typography variant="subtitle2"> low of 52°</Typography>
+                  <Typography variant="subtitle2"> high of {day.values.temperature}</Typography>
                   <WbSunny/>/<Cloud/>
                 </Grid>
               </Card>
             );
-          })}
+          }) : <div>"nothing to see here"</div>}
         </Grid>
       </Container>
     </>
