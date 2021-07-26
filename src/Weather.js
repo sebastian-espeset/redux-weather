@@ -1,4 +1,4 @@
-import {React, useEffect} from "react";
+import {React, useEffect, useState} from "react";
 import {
   Grid,
   Paper,
@@ -14,6 +14,7 @@ import axios from 'axios';
 
 const queryString=require("query-string");
 const moment=require("moment"); 
+
 const daysList = [
   "Monday",
   "Tuesday",
@@ -31,25 +32,41 @@ const useStyle = makeStyles((theme) => ({
     padding: "10px",
   },
 }));
-const URLWithAuth=`https://api.tomorrow.io/v4/locations?apikey=ETMKiJgnxZ8Q4Nr2QX0kpMA04v5Sfn1f`;
-const locationChi = [41.8757,87.6243];
-const fields = ["temperature","cloudBase"];
+
+const timeLinesURL=`https://api.tomorrow.io/v4/timelines`;
+const apikey = `ETMKiJgnxZ8Q4Nr2QX0kpMA04v5Sfn1f`;
+const location =['41.8781, 87.6298'];
+const fields = ["temperature","weatherCode"];
 const units = "imperial";
-const timesteps=["1d","2d","3d","4d","5d","6d","7d"];
+const timesteps=["1d"];
 const now=moment.utc();
 const startTime=moment.utc(now).add(0,"minutes").toISOString();
 const endTime=moment.utc(now).add(7,"days").toISOString();
-const timeZone=`America/Chicago`;
+const timezone=`America/Chicago`;
+
+const getTimeLineParameters = queryString.stringify({
+  apikey,
+  location,
+  fields,
+  units,
+  timesteps,
+  startTime,
+  endTime,
+  timezone,
+}, {arrayFormat:"comma"});
+
 
 
 
 function Weather() {
+  const [weather, setWeather]=useState([])
   const classes = useStyle();
   useEffect(() => {
-      axios.get(URLWithAuth)
-      .then(res=>console.log(res.data))
+      axios.get(timeLinesURL+"?"+getTimeLineParameters)
+      .then(res=>setWeather(res.data.data.timelines[0]))
       .catch(err=>console.log(err))
   }, [])
+  console.log(weather)
   return (
     <>
       <AppBar  color="secondary" justify="center">
